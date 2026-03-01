@@ -8,6 +8,11 @@ on:
     # Run when files under demo/ change (includes demo/index.html)
     paths:
       - 'demo/**'
+      - 'css/**'
+      - 'js/**'
+      - 'data/**'
+      - 'index.html'
+      - '.github/workflows/static.yml'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,9 +46,10 @@ jobs:
           rm -rf site || true
           mkdir site
           cp -r demo/* site/  # copy demo contents to site root for publishing
-          # include CSS and JS so assets are available at site root
+          # include assets so they're available at site root
           cp -r css site/ || true
           cp -r js site/ || true
+          cp -r data site/ || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
