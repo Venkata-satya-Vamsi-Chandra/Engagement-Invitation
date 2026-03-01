@@ -5,7 +5,7 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-    # Run when files under demo/ change
+    # Run when files under demo/ change (includes demo/index.html)
     paths:
       - 'demo/**'
 
@@ -41,6 +41,7 @@ jobs:
           rm -rf site || true
           mkdir site
           cp -r demo/* site/  # copy demo contents to site root for publishing
+          # include CSS and JS so assets are available at site root
           cp -r css site/ || true
           cp -r js site/ || true
       - name: Upload artifact
