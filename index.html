@@ -1,148 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="You're invited to a special event" />
-
-    <meta property="og:title" content="You're Invited" />
-    <meta property="og:description" content="Join us for a special event" />
-
-    <title>You're Invited</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vamsi & Satya | Wedding | April 29, 2026</title>
+    <meta name="description"
+        content="Join us in celebrating the sacred union of Vamsi and Satya. April 29, 2026 in Vizianagaram, Andhra Pradesh.">
+    <meta name="theme-color" content="#080604">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Outfit:wght@300;400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Poppins:wght@200;300;400;500;600&display=swap"
         rel="stylesheet">
-
-    <link rel="stylesheet" href="css/invite.css">
-    <script defer src="js/demo/invite-3.js"></script>
-
-    <script async src="https://tally.so/widgets/embed.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <button id="simple-mode-toggle" class="accessibility-fab" aria-label="Toggle Simple Mode"
-        data-tooltip="Switch between standard and easy-reading view" hidden>
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" id="standard-view-icon" />
-            <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
-                id="simple-view-icon" class="hidden-icon" />
-        </svg>
-    </button>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="custom-cursor" id="cur"></div>
+    <div class="cursor-trail" id="trail"></div>
 
-    <button id="audio-control" class="audio-fab" aria-label="Play Music" data-tooltip="Turn background music on or off"
-        hidden>
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M8 5v14l11-7z" id="play-icon" />
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" id="pause-icon" class="hidden-icon" />
-        </svg>
-    </button>
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">Vamsi <span>&</span> Satya</div>
+        <div class="nav-right">
+            <div class="nav-links" id="navLinks">
+                <a href="#story" data-section="story">Story</a>
+                <a href="#rings" data-section="rings">Ring</a>
+                <a href="#events" data-section="events">Events</a>
+                <a href="#venue" data-section="venue">Venue</a>
+                <a href="#gallery" data-section="gallery">Gallery</a>
+                <a href="#rsvp" data-section="rsvp">RSVP</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
 
-    <main id="app" aria-live="polite">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <canvas class="petal-canvas" id="petalCanvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-mandala">
+            <svg viewBox="0 0 400 400" width="400" height="400">
+                <circle cx="200" cy="200" r="180" fill="none" stroke="currentColor" stroke-width="0.5"
+                    stroke-dasharray="8 6" />
+                <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" stroke-width="0.3"
+                    stroke-dasharray="4 8" />
+                <circle cx="200" cy="200" r="100" fill="none" stroke="currentColor" stroke-width="0.3"
+                    stroke-dasharray="3 10" />
+            </svg>
+        </div>
+        <div class="hero-content">
+            <div class="hero-line anim-1"></div>
+            <h1 class="hero-name anim-2">Vamsi</h1>
+            <div class="hero-heart anim-3">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </div>
+            <h1 class="hero-name anim-4">Satya</h1>
+            <p class="hero-date anim-5">29 &middot; April &middot; 2026</p>
+            <p class="hero-location anim-5">Vizianagaram, Andhra Pradesh</p>
+            <div class="hero-buttons anim-6">
+                <a href="#story" class="btn btn-filled">Our Story</a>
+                <a href="#rsvp" class="btn btn-outline">RSVP Now</a>
+            </div>
+        </div>
+    </section>
 
-        <section class="hero">
-            <h1 id="event-title">Loading…</h1>
-            <p class="subtitle" id="event-subtitle"></p>
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
 
-            <div class="hero-meta">
-                <div id="countdown" class="countdown" aria-live="polite" hidden>
-                    <span class="countdown-label">Event starts in</span>
-
-                    <div class="countdown-grid">
-                        <div class="countdown-unit">
-                            <strong id="cd-days">0</strong>
-                            <span>Days</span>
+    <!-- COUNTDOWN -->
+    <section class="sec sec-surface" id="countdown">
+        <h2 class="sh reveal">Counting Down to Forever</h2>
+        <div class="cd-card reveal">
+            <div class="cd-grid" id="cdGrid">
+                <div class="cd-unit">
+                    <div class="flip" id="fD">
+                        <div class="flip-in">
+                            <div class="flip-f"><span>000</span></div>
+                            <div class="flip-b"><span>000</span></div>
                         </div>
-
-                        <div class="countdown-unit">
-                            <strong id="cd-hours">00</strong>
-                            <span>Hours</span>
+                    </div><span class="cd-lbl">Days</span>
+                </div>
+                <div class="cd-unit">
+                    <div class="flip" id="fH">
+                        <div class="flip-in">
+                            <div class="flip-f"><span>00</span></div>
+                            <div class="flip-b"><span>00</span></div>
                         </div>
-
-                        <div class="countdown-unit">
-                            <strong id="cd-minutes">00</strong>
-                            <span>Minutes</span>
+                    </div><span class="cd-lbl">Hours</span>
+                </div>
+                <div class="cd-unit">
+                    <div class="flip" id="fM">
+                        <div class="flip-in">
+                            <div class="flip-f"><span>00</span></div>
+                            <div class="flip-b"><span>00</span></div>
                         </div>
-
-                        <div class="countdown-unit">
-                            <strong id="cd-seconds">00</strong>
-                            <span>Seconds</span>
+                    </div><span class="cd-lbl">Minutes</span>
+                </div>
+                <div class="cd-unit">
+                    <div class="flip" id="fS">
+                        <div class="flip-in">
+                            <div class="flip-f"><span>00</span></div>
+                            <div class="flip-b"><span>00</span></div>
                         </div>
+                    </div><span class="cd-lbl">Seconds</span>
+                </div>
+            </div>
+            <p class="cd-tag">Until we begin our forever</p>
+        </div>
+    </section>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- OUR STORY — always light bg -->
+    <section class="sec sec-story" id="story">
+        <h2 class="sh sh-dark reveal">How It All Began</h2>
+        <div class="timeline" id="timeline">
+            <div class="tl-line"></div>
+            <div class="tl-item tl-l reveal">
+                <div class="tl-c"><span class="tl-n">01</span>
+                    <h3>The First Meeting</h3>
+                    <p class="tl-d">The Day Stars Aligned</p>
+                    <p>In the beautiful city steeped in culture, fate orchestrated a meeting that would change two lives
+                        forever. A glance across the room, a shared smile, and destiny had spoken.</p>
+                </div>
+            </div>
+            <div class="tl-item tl-r reveal">
+                <div class="tl-c"><span class="tl-n">02</span>
+                    <h3>Growing Together</h3>
+                    <p class="tl-d">Through Seasons of Love</p>
+                    <p>From late-night conversations to weekend adventures, every moment wove the threads of a love
+                        story that would be told for generations.</p>
+                </div>
+            </div>
+            <div class="tl-item tl-l reveal">
+                <div class="tl-c"><span class="tl-n">03</span>
+                    <h3>Families' Blessings</h3>
+                    <p class="tl-d">Two Families Became One</p>
+                    <p>With joy in their hearts and prayers on their lips, both families came together blessing this
+                        sacred union.</p>
+                </div>
+            </div>
+            <div class="tl-item tl-r reveal">
+                <div class="tl-c"><span class="tl-n">04</span>
+                    <h3>The Engagement</h3>
+                    <p class="tl-d">A Promise of Forever</p>
+                    <p>Surrounded by loved ones, with the exchange of rings and garlands, a promise was made to walk
+                        together through every sunrise and sunset.</p>
+                </div>
+            </div>
+            <div class="tl-item tl-l reveal">
+                <div class="tl-c"><span class="tl-n">05</span>
+                    <h3>The Wedding Day</h3>
+                    <p class="tl-d">April 29, 2026</p>
+                    <p>Seven vows, seven steps, one eternal bond. Join us as we write the most beautiful chapter of our
+                        story together.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- THE RING — darkest bg -->
+    <section class="sec sec-dark" id="rings">
+        <h2 class="sh reveal">The Ring</h2>
+        <p class="ring-sub reveal"><em>A circle with no beginning and no end</em></p>
+        <div class="ring-grid">
+            <div class="ring-panel reveal"><img src="images/004.JPG" alt="Ring detail" loading="lazy"></div>
+            <div class="ring-panel ring-elevated reveal"><img src="images/005.JPG" alt="Ring exchange" loading="lazy">
+            </div>
+            <div class="ring-panel reveal"><img src="images/014.JPG" alt="Hands with rings" loading="lazy"></div>
+        </div>
+    </section>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- EVENTS -->
+    <section class="sec sec-surface" id="events">
+        <h2 class="sh reveal">Wedding Celebrations</h2>
+        <div class="ev-grid">
+            <div class="ev-card reveal">
+                <div class="ev-top"></div><span class="tl-n">I</span>
+                <h3>Haldi Ceremony</h3>
+                <p class="ev-sub">Pre-Wedding Ritual</p>
+                <div class="ev-det">
+                    <p><strong>Date:</strong> April 28, 2026</p>
+                    <p><strong>Time:</strong> 10:00 AM onwards</p>
+                    <p><strong>Venue:</strong> Family Residence, Vizianagaram</p>
+                </div>
+            </div>
+            <div class="ev-card ev-main reveal">
+                <div class="ev-top"></div>
+                <div class="ev-badge">Main Event</div><span class="tl-n">II</span>
+                <h3>Muhurtham</h3>
+                <p class="ev-sub">The Sacred Wedding Ceremony</p>
+                <div class="ev-det">
+                    <p><strong>Date:</strong> April 29, 2026</p>
+                    <p><strong>Time:</strong> Early Morning</p>
+                    <p><strong>Venue:</strong> Sri Ladhuram Toshniwal Memorial Bhawan</p>
+                </div>
+            </div>
+            <div class="ev-card reveal">
+                <div class="ev-top"></div><span class="tl-n">III</span>
+                <h3>Reception</h3>
+                <p class="ev-sub">Grand Celebration</p>
+                <div class="ev-det">
+                    <p><strong>Date:</strong> April 29, 2026</p>
+                    <p><strong>Time:</strong> 7:00 PM onwards</p>
+                    <p><strong>Venue:</strong> Grand Hall, Vizianagaram</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- VENUE -->
+    <section class="sec sec-dark" id="venue">
+        <h2 class="sh reveal">The Sacred Venue</h2>
+        <div class="venue-card reveal">
+            <div class="venue-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
+                    stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg></div>
+            <p class="venue-lbl">Wedding Venue</p>
+            <h3 class="venue-name">Sri Ladhuram Toshniwal<br>Memorial Bhawan</h3>
+            <p class="venue-addr">5-16, Sri Ladhuram Toshniwal Memorial Bhawan Road<br>Backside Bank of Baroda,
+                Srinivasa Nagar Colony<br>Vizianagaram, Andhra Pradesh 535001</p>
+            <div class="venue-btns">
+                <a href="https://www.google.com/maps/search/?api=1&query=Sri+Ladhuram+Toshniwal+Memorial+Bhawan+Road+Vizianagaram+535001"
+                    target="_blank" class="btn btn-outline">View on Maps</a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=5-16,+Sri+Ladhuram+Toshniwal+Memorial+Bhawan+Road,+Vizianagaram,+AP+535001"
+                    target="_blank" class="btn btn-outline">Get Directions</a>
+                <button class="btn btn-outline" onclick="downloadICS()">Add to Calendar</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- GALLERY -->
+    <section class="sec sec-dark" id="gallery">
+        <h2 class="sh reveal">Precious Moments</h2>
+        <div class="gallery-grid" id="galleryGrid">
+            <div class="g-item reveal" data-idx="0"><img src="images/001.JPG" alt="Photo 1" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="1"><img src="images/002.JPG" alt="Photo 2" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="2"><img src="images/003.JPG" alt="Photo 3" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="3"><img src="images/006.JPG" alt="Photo 6" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="4"><img src="images/007.JPG" alt="Photo 7" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="5"><img src="images/008.JPG" alt="Photo 8" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="6"><img src="images/009.JPG" alt="Photo 9" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="7"><img src="images/011.JPG" alt="Photo 11" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="8"><img src="images/012.JPG" alt="Photo 12" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="9"><img src="images/014.JPG" alt="Photo 14" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="10"><img src="images/015.JPG" alt="Photo 15" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="11"><img src="images/016.JPG" alt="Photo 16" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="12"><img src="images/017.JPG" alt="Photo 17" loading="lazy"></div>
+            <div class="g-item reveal" data-idx="13"><img src="images/018.JPG" alt="Photo 18" loading="lazy"></div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" id="lbClose">&times;</button>
+        <button class="lb-arr lb-prev" id="lbPrev">&#10094;</button>
+        <button class="lb-arr lb-next" id="lbNext">&#10095;</button>
+        <img class="lb-img" id="lbImg" alt="Photo">
+        <span class="lb-counter" id="lbCounter">1 / 14</span>
+    </div>
+
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
+
+    <!-- RSVP -->
+    <section class="sec sec-surface" id="rsvp">
+        <h2 class="sh reveal">You're Invited</h2>
+        <div class="rsvp-card reveal">
+            <div class="rsvp-dots" id="rsvpDots">
+                <div class="dot active">1</div>
+                <div class="dot-line"></div>
+                <div class="dot">2</div>
+                <div class="dot-line"></div>
+                <div class="dot">3</div>
+                <div class="dot-line"></div>
+                <div class="dot">4</div>
+            </div>
+            <form id="rsvpForm">
+                <div class="rs active" data-step="1">
+                    <h3>Tell Us About You</h3>
+                    <div class="fg"><input type="text" id="rN" placeholder=" " required><label for="rN">Your Full
+                            Name</label></div>
+                    <div class="fg"><select id="rRel" required>
+                            <option value="" disabled selected>Relationship</option>
+                            <option>Family - Groom's Side</option>
+                            <option>Family - Bride's Side</option>
+                            <option>Friend - Groom's Side</option>
+                            <option>Friend - Bride's Side</option>
+                            <option>Colleague</option>
+                            <option>Other</option>
+                        </select></div>
+                    <div class="fg"><input type="email" id="rE" placeholder=" "><label for="rE">Email (optional)</label>
+                    </div><button type="button" class="btn btn-filled rnext" data-next="2">Next</button>
+                </div>
+                <div class="rs" data-step="2">
+                    <h3>Guest Details</h3>
+                    <div class="fg"><select id="rAtt" required>
+                            <option value="" disabled selected>Will you attend?</option>
+                            <option value="yes">Joyfully Accepting!</option>
+                            <option value="maybe">Hoping to make it</option>
+                            <option value="no">Regretfully Declining</option>
+                        </select></div>
+                    <div class="fg"><select id="rG">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5+">5+ Guests</option>
+                        </select></div>
+                    <div class="fg"><select id="rD">
+                            <option value="veg" selected>Vegetarian</option>
+                            <option value="non-veg">Non-Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="no-pref">No Preference</option>
+                        </select></div>
+                    <div class="btn-row"><button type="button" class="btn btn-outline rprev"
+                            data-prev="1">Back</button><button type="button" class="btn btn-filled rnext"
+                            data-next="3">Next</button></div>
+                </div>
+                <div class="rs" data-step="3">
+                    <h3>Your Blessings</h3>
+                    <div class="fg"><textarea id="rMsg" rows="4" placeholder=" "></textarea><label for="rMsg">A message
+                            for the couple</label></div>
+                    <div class="btn-row"><button type="button" class="btn btn-outline rprev"
+                            data-prev="2">Back</button><button type="button" class="btn btn-filled rnext"
+                            data-next="4">Next</button></div>
+                </div>
+                <div class="rs" data-step="4">
+                    <h3>Video Blessing (Optional)</h3>
+                    <p class="rs-desc">Record a short video blessing. Completely optional.</p>
+                    <div class="vid-area"><video id="vidP" autoplay muted playsinline></video>
+                        <div class="vid-btns"><button type="button" class="btn btn-filled" id="bRec">Start
+                                Recording</button><button type="button" class="btn btn-outline" id="bStop"
+                                style="display:none">Stop</button></div>
+                        <p class="vid-st" id="vidSt"></p>
                     </div>
+                    <div class="btn-row"><button type="button" class="btn btn-outline rprev"
+                            data-prev="3">Back</button><button type="submit" class="btn btn-filled">Send
+                            Blessings</button></div>
                 </div>
-
-                <div id="calendar-actions" hidden>
-                    <a id="google-calendar-link" target="_blank" rel="noopener">
-                        Add to Google Calendar
-                    </a>
-                </div>
+            </form>
+            <div class="rsvp-ok" id="rsvpOk">
+                <h3>Thank You!</h3>
+                <p>Your blessings mean the world to us!</p>
             </div>
+        </div>
+    </section>
 
-            <a href="#rsvp" class="primary-btn">RSVP</a>
-        </section>
+    <div class="divider"><svg viewBox="0 0 400 20">
+            <path class="div-path" d="M0,10 Q50,0 100,10 Q150,20 200,10 Q250,0 300,10 Q350,20 400,10"
+                stroke="var(--accent)" stroke-width="1" fill="none" stroke-dasharray="600" stroke-dashoffset="600" />
+        </svg></div>
 
-        <section class="section event-details">
-            <h2>Event Details</h2>
-
-            <div class="event-datetime">
-                <div>
-                    <strong>Date:</strong>
-                    <time id="event-date"></time>
-                </div>
-                <div>
-                    <strong>Time:</strong>
-                    <span id="event-time"></span>
-                </div>
+    <!-- BLESSINGS -->
+    <section class="sec sec-surface" id="blessings">
+        <h2 class="sh reveal">Wall of Blessings</h2>
+        <div class="bl-grid" id="blGrid">
+            <div class="bl-card reveal" style="--r:-2deg">
+                <p>"May your love grow stronger with each passing day!"</p><span>- Lakshmi Aunty</span>
             </div>
-
-            <p id="event-description"></p>
-
-            <address class="location">
-                <p id="venue-name"></p>
-                <p id="venue-address"></p>
-                <a id="maps-link" target="_blank" rel="noopener">Open in Google Maps</a>
-            </address>
-        </section>
-
-        <section class="section" id="schedule-section" hidden>
-            <h2>Schedule</h2>
-            <ul id="schedule-list"></ul>
-        </section>
-
-        <section class="section" id="rsvp">
-            <h2>RSVP</h2>
-            <p>Please confirm your attendance</p>
-            <div class="form-embed"></div>
-        </section>
-
-        <footer>
-            <div class="footer-branding">
-                <a id="footer-branding-link" href="#" class="low-profile-link" target="_blank" rel="noopener">
-                    <img id="footer-logo" src="" alt="" class="footer-logo">
-                </a>
-                <div class="footer-info">
-                    <p class="hosted-by" id="footer-credits-label"></p>
-                    <p class="copyright">
-                        <span id="footer-copyright"></span>
-                        <span id="footer-template-container">
-                            | <span id="footer-template-label"></span>
-                            <a id="footer-template-link" href="#" class="low-profile-link" target="_blank"
-                                rel="noopener"></a>
-                        </span>
-                    </p>
-                    <p id="footer-repo-container" class="repo-info" hidden>
-                        <a id="footer-repo-link" href="#" class="low-profile-link" target="_blank" rel="noopener"></a>
-                    </p>
-                </div>
+            <div class="bl-card reveal" style="--r:1.5deg">
+                <p>"Two beautiful souls coming together. Blessings!"</p><span>- Ravi Uncle</span>
             </div>
-            <p id="footer-text"></p>
-        </footer>
+            <div class="bl-card reveal" style="--r:-1deg">
+                <p>"Made for each other! Can't wait to celebrate!"</p><span>- Priya & Friends</span>
+            </div>
+            <div class="bl-card reveal" style="--r:3deg">
+                <p>"Seven steps, seven lives. May your love be eternal."</p><span>- Family Elder</span>
+            </div>
+            <div class="bl-card reveal" style="--r:-2.5deg">
+                <p>"Your journey inspires us all. Wishing you the best!"</p><span>- College Gang</span>
+            </div>
+            <div class="bl-card reveal" style="--r:1deg">
+                <p>"May the divine bless you with eternal happiness!"</p><span>- Grandparents</span>
+            </div>
+        </div>
+    </section>
 
-    </main>
+    <!-- HASHTAG BANNER -->
+    <section class="sec sec-hashtag" id="hashtag">
+        <h2 class="hashtag-txt reveal">#VamsiWedsSatya</h2>
+        <p class="hashtag-sub reveal">Share your moments with us</p>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee">
+        <div class="mq-track"><span>29 APRIL 2026</span><span>VIZIANAGARAM</span><span>VAMSI WEDS SATYA</span><span>29
+                APRIL 2026</span><span>VIZIANAGARAM</span><span>VAMSI WEDS SATYA</span><span>29 APRIL
+                2026</span><span>VIZIANAGARAM</span><span>VAMSI WEDS SATYA</span><span>29 APRIL 2026</span></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <h2 class="ft-names">Vamsi & Satya</h2>
+        <p class="ft-hash">#VamsiWedsSatya</p>
+        <p class="ft-credit">Made with love for a lifetime of love</p>
+        <p class="ft-yr">2026</p>
+    </footer>
+
+    <!-- MUSIC -->
+    <div class="music" id="music"><button class="mu-btn" id="muBtn" aria-label="Music"><svg viewBox="0 0 24 24"
+                width="18" height="18" fill="currentColor">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+            </svg></button>
+        <div class="mu-panel" id="muPanel"><span class="mu-trk">Ambient</span>
+            <div class="wf" id="wf"></div>
+        </div>
+    </div>
+    <button class="btt" id="btt" aria-label="Top"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6" />
+        </svg></button>
+    <canvas class="confetti-cv" id="confettiCv"></canvas>
+    <script src="script.js"></script>
 </body>
 
 </html>
